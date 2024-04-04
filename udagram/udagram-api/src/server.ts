@@ -44,7 +44,12 @@ import { V0_FEED_MODELS, V0_USER_MODELS } from "./controllers/v0/model.index";
     "preflightContinue": true,
     "origin": '*',
   }));
-
+  app.use((req, res, next) => {
+    console.log('Incoming Request:', req.method, req.path);
+    console.log('CORS Headers set:', res.get('Access-Control-Allow-Origin'));
+    next();
+  });
+  
   app.use("/api/v0/", IndexRouter);
 
   // Root URI call
