@@ -1,7 +1,14 @@
 # Hosting a Full-Stack Application
 
+![Website Deployed](image.png)
 ### **You can use you own project completed in previous courses or use the provided Udagram app for completing this final project.**
 
+## Live Application URLs
+
+- **API Endpoint**: [http://udagram-api-dev22.us-east-1.elasticbeanstalk.com/](http://udagram-api-dev22.us-east-1.elasticbeanstalk.com/)
+  - The API serves as the backend component of the Udagram application. It handles requests related to user authentication, image feed functionality, and communication with the AWS S3 bucket for image storage.
+
+- **Frontend Application**: [http://bryan27bucket.s3-website.us-east-2.amazonaws.com/](http://bryan27bucket.s3-website.us-east-2.amazonaws.com/)
 ---
 
 In this project you will learn how to take a newly developed Full-Stack application built for a retailer and deploy it to a cloud service provider so that it is available to customers. You will use the aws console to start and configure the services the application needs such as a database to store product information and a web server allowing the site to be discovered by potential customers. You will modify your package.json scripts and replace hard coded secrets with environment variables in your code.
