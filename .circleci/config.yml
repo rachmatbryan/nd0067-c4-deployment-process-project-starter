@@ -61,6 +61,10 @@ jobs:
       - eb/setup
       - aws-cli/setup
       - checkout
+      - run:
+          name: Initialize Elastic Beanstalk CLI
+          command: |
+            eb init udagram-api --region $AWS_REGION --platform node.js --keyname mykeypair
       - run: 
           name: Set Elastic Beanstalk Environment Variables
           command: |
