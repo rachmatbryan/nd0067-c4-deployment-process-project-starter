@@ -1,21 +1,16 @@
 version: 2.1
 orbs:
-  # orgs contain basc recipes and reproducible actions (install node, aws, etc.)
   node: circleci/node@5.0.2
   eb: circleci/aws-elastic-beanstalk@2.0.1
   aws-cli: circleci/aws-cli@3.1.1
-  # different jobs are calles later in the workflows sections
 jobs:
   build:
     docker:
-      # the base image can run most needed actions with orbs
-      - image: "cimg/node:14.15"
+      - image: 'cimg/node:14.15'
     steps:
-      # install node and checkout code
       - node/install:
-          node-version: '14.15'         
+          node-version: '14.15'
       - checkout
-      # Use root level package.json to install dependencies in the frontend app
       - run:
           name: Install Front-End Dependencies
           command: |
@@ -24,17 +19,15 @@ jobs:
             echo "NPM --version" 
             echo $(npm --version)
             npm run frontend:install
-      # TODO: Install dependencies in the the backend API          
       - run:
           name: Install API Dependencies
           command: |
-           echo "NODE --version" 
-           echo "NODE --version" 
-           echo $(node --version)
-           echo "NPM --version" 
-           echo $(npm --version)
-           npm run api:install
-      # TODO: Lint the frontend
+            echo "NODE --version" 
+            echo "NODE --version" 
+            echo $(node --version)
+            echo "NPM --version" 
+            echo $(npm --version)
+            npm run api:install
       - run:
           name: Front-End Lint
           command: |
@@ -43,7 +36,6 @@ jobs:
             echo "NPM --version" 
             echo $(npm --version)
             npm run frontend:lint
-      # TODO: Build the frontend app
       - run:
           name: Front-End Build
           command: |
@@ -52,7 +44,6 @@ jobs:
             echo "NPM --version" 
             echo $(npm --version)
             npm run frontend:build
-      # TODO: Build the backend API      
       - run:
           name: API Build
           command: |
@@ -61,18 +52,16 @@ jobs:
             echo "NPM --version" 
             echo $(npm --version)
             npm run api:build
-  # deploy step will run only after manual approval
   deploy:
     docker:
-      - image: "cimg/base:stable"
-      # more setup needed for aws, node, elastic beanstalk
+      - image: 'cimg/base:stable'
     steps:
       - node/install:
-          node-version: '14.15' 
+          node-version: '14.15'
       - eb/setup
       - aws-cli/setup
       - checkout
-      - run:
+      - run: null
         name: Set Elastic Beanstalk Environment Variables
         command: |
           eb setenv POSTGRES_DB=$POSTGRES_DB \
@@ -88,10 +77,8 @@ jobs:
                     URL=$URL -e udagram-api-dev
       - run:
           name: Deploy App
-          # TODO: Install, build, deploy in both apps
           command: |
             npm run api:deploy && npm run frontend:deploy
-            
 workflows:
   udagram:
     jobs:
