@@ -82,18 +82,16 @@ jobs:
           
           eb setenv POSTGRES_DB=$POSTGRES_DB AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_BUCKET=$AWS_BUCKET AWS_PROFILE=$AWS_PROFILE AWS_REGION=$AWS_REGION AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY JWT_SECRET=$JWT_SECRET POSTGRES_HOST=$POSTGRES_HOST POSTGRES_PASSWORD=$POSTGRES_PASSWORD POSTGRES_USERNAME=$POSTGRES_USERNAME URL=$URL
           
-      # more setup needed for aws, node, elastic beanstalk
-  
-      - node/install:
-          node-version: "14.15"
-      - eb/setup
-      - aws-cli/setup
-      - checkout
-      - run:
-          name: Deploy App
-          # TODO: Install, build, deploy in both apps
-          command: |
-            npm run api:deploy && npm run frontend:deploy
+    - node/install:
+        node-version: "14.15"
+    - eb/setup
+    - aws-cli/setup
+    - checkout
+    - run:
+        name: Deploy App
+        # TODO: Install, build, deploy in both apps
+        command: |
+          npm run api:deploy && npm run frontend:deploy
 
 workflows:
   udagram:
