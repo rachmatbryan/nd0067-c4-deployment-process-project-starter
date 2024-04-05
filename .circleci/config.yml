@@ -60,12 +60,30 @@ jobs:
             echo "NPM --version" 
             echo $(npm --version)
             npm run api:build
-  # deploy step will run only after manual approval
+  
   deploy:
     docker:
       - image: "cimg/base:stable"
-      # more setup needed for aws, node, elastic beanstalk
     steps:
+    - checkout
+    - aws-cli/setup 
+    - run:
+        name: Install Elastic Beanstalk CLI
+        command: |
+          pip install awsebcli --upgrade
+    - run:
+        name: Deploy to Elastic Beanstalk and Set Environment Variables
+        command: |
+
+          echo -e "[profile eb-cli]\naws_access_key_id = $AWS_ACCESS_KEY_ID\naws_secret_access_key = $AWS_SECRET_ACCESS_KEY" > ~/.aws/config
+          
+          eb use udagram-api-dev --profile eb-cli
+          
+          
+          eb setenv POSTGRES_DB=$POSTGRES_DB AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_BUCKET=$AWS_BUCKET AWS_PROFILE=$AWS_PROFILE AWS_REGION=$AWS_REGION AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY JWT_SECRET=$JWT_SECRET POSTGRES_HOST=$POSTGRES_HOST POSTGRES_PASSWORD=$POSTGRES_PASSWORD POSTGRES_USERNAME=$POSTGRES_USERNAME URL=$URL
+          
+      # more setup needed for aws, node, elastic beanstalk
+  
       - node/install:
           node-version: "14.15"
       - eb/setup
